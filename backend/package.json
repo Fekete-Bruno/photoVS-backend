@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon NODE_ENV=development ./src/server.ts",
+    "dev": "nodemon ./src/server.ts",
     "dev:load-envs": "dotenv -e .env.development",
     "dev:migration:generate": "npm run dev:load-envs prisma migrate dev",
     "dev:migration:run": "npm run dev:load-envs prisma migrate deploy",

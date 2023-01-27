@@ -3,8 +3,7 @@
         "outDir": "dist",
         "esModuleInterop": true,
         "moduleResolution": "node",
-        "module": "ES6",
-        "target": "ES6"
+        "module": "CommonJS"
     },
     "rootDirs": [
         "src",
