@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model sessions {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  user_id    Int
+  token      String
+  active     Boolean  @default(true)
+  users      users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model votes {
+  id          Int      @id @default(autoincrement())
+  voted_for_a Boolean  
+  poll_id     Int
+  user_id     Int
+  users       users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  polls       polls    @relation(fields: [poll_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model polls {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(64)
+  description String   @db.VarChar(255)
+  img_a_url   String   @db.VarChar(255)
+  img_b_url   String   @db.VarChar(255)
+  img_a_title String   @db.VarChar(255)
+  img_b_title String   @db.VarChar(255)
+  user_id     Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now())
+  votes       votes[]
+  users       users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model users {
+  id         Int        @id @default(autoincrement())
+  username   String     @unique @db.VarChar(32)
+  email      String     @unique @db.VarChar(255)
+  avatar_url String?    @db.VarChar(255)
+  password   String     @db.VarChar
+  created_at DateTime   @default(now())
+  updated_at DateTime   @default(now())
+  active     Boolean    @default(true)
+  sessions   sessions[]
+  polls      polls[]
+  votes       votes[]
+}
