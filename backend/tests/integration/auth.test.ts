@@ -72,8 +72,8 @@ describe("POST /auth/sign-in", () => {
                 delete user.username;
 
                 const response = await server.post("/auth/sign-in").send(user);
-        
-                expect(response.body).toEqual({
+
+                expect(response.body.user).toEqual({
                     id: created_user.id,
                     email: user.email
                 });
