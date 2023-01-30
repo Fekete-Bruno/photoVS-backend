@@ -9,7 +9,7 @@ import { duplicatedEmailError, duplicatedUsernameError } from "../../src/errors/
 beforeAll(async () => {
     await init();
     await cleanDb();
-})
+});
 
 const server = supertest(app);
 
@@ -32,13 +32,19 @@ describe("POST /users", ()=>{
         const generateValidBody = () => ({
           email: faker.internet.email(),
           password: faker.internet.password(6),
+          username: faker.internet.userName(),
         });
 
         it("should respond with status 409 when there is an user with given email", async () => {
             const body = generateValidBody();
             await createUser(body);
-    
-            const response = await server.post("/users").send(body);
+            
+            const new_body = {
+                email:body.email,
+                password:body.password,
+                username:faker.internet.userName()
+            }
+            const response = await server.post("/users").send(new_body);
     
             expect(response.status).toBe(httpStatus.CONFLICT);
             expect(response.body).toEqual(duplicatedEmailError());
@@ -47,8 +53,13 @@ describe("POST /users", ()=>{
         it("should respond with status 409 when there is an user with given username", async () => {
             const body = generateValidBody();
             await createUser(body);
-    
-            const response = await server.post("/users").send(body);
+            
+            const new_body = {
+                username:body.username,
+                password:body.password,
+                email:faker.internet.email()
+            }
+            const response = await server.post("/users").send(new_body);
     
             expect(response.status).toBe(httpStatus.CONFLICT);
             expect(response.body).toEqual(duplicatedUsernameError());
