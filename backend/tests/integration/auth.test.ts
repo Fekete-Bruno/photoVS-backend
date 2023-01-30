@@ -44,13 +44,25 @@ describe("POST /auth/sign-in", () => {
         it("should respond with status 401 if there is a user for given email but password is not correct", async () => {
             const user = generateValidUser();
             await createUser(user);
-            
+
             const response = await server.post("/auth/sign-in").send({
               email: user.email,
-              password: faker.lorem.word(),
+              password: faker.lorem.word(10),
             });
       
             expect(response.status).toBe(httpStatus.UNAUTHORIZED);
+        });
+
+        it("should respond with status 400 if password is too small", async () => {
+            const user = generateValidUser();
+            await createUser(user);
+
+            const response = await server.post("/auth/sign-in").send({
+              email: user.email,
+              password: faker.lorem.word(5),
+            });
+      
+            expect(response.status).toBe(httpStatus.BAD_REQUEST);
         });
 
         describe("when credentials are valid", () => {
