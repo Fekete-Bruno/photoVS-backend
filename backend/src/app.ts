@@ -4,8 +4,6 @@ import { users_router } from "./routers/users.router";
 import { loadEnv } from "./config/envs";
 import { connectDb } from "./config/database";
 
-
-
 loadEnv();
 
 const app = express();

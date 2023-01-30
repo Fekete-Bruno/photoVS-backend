@@ -1,7 +1,9 @@
-import app from "./app";
+import app, { init } from "./app";
 
-const port = 4001;
+const port = process.env.PORT || 4001;
 
-app.listen(port, () => {
-    console.log(`Server is listening on port ${port}.`);
+init().then(() => {
+    app.listen(port, () => {
+        console.log(`Server is listening on port ${port}.`);
+    });
 });
