@@ -6,7 +6,7 @@ import { faker } from "@faker-js/faker";
 import { createUser } from "../factories/users-factory";
 import { duplicatedEmailError, duplicatedUsernameError } from "../../src/errors/users-errors";
 
-beforeAll(async () => {
+beforeEach(async () => {
     await init();
     await cleanDb();
 });
