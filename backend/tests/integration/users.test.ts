@@ -1,15 +1,18 @@
 import httpStatus from "http-status";
 import supertest from "supertest";
 import app, { init } from "../../src/app";
-import { cleanDb } from "../helpers";
+import { cleanDb, generateValidUser } from "../helpers";
 import { faker } from "@faker-js/faker";
 import { createUser } from "../factories/users-factory";
 import { duplicatedEmailError, duplicatedUsernameError } from "../../src/errors/users-errors";
 
-beforeEach(async () => {
+beforeAll(async () => {
     await init();
-    await cleanDb();
 });
+
+beforeEach(async () => {
+    await cleanDb();
+})
 
 const server = supertest(app);
 
@@ -29,14 +32,9 @@ describe("POST /users", ()=>{
     });
 
     describe("when body is valid", () => {
-        const generateValidBody = () => ({
-          email: faker.internet.email(),
-          password: faker.internet.password(6),
-          username: faker.internet.userName(),
-        });
 
         it("should respond with status 409 when there is an user with given email", async () => {
-            const body = generateValidBody();
+            const body = generateValidUser();
             await createUser(body);
             
             const new_body = {
@@ -51,7 +49,7 @@ describe("POST /users", ()=>{
         });
 
         it("should respond with status 409 when there is an user with given username", async () => {
-            const body = generateValidBody();
+            const body = generateValidUser();
             await createUser(body);
             
             const new_body = {
@@ -67,7 +65,7 @@ describe("POST /users", ()=>{
 
 
         it("should respond with status 201 and create user when given email is unique", async () => {
-            const body = generateValidBody();
+            const body = generateValidUser();
     
             const response = await server.post("/users").send(body);
     
