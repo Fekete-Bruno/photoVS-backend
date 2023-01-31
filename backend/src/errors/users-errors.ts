@@ -13,3 +13,10 @@ export function duplicatedUsernameError(): ApplicationError {
         message: "There is already an user with given username",
     }
 }
+
+export function inexistentUserError(): ApplicationError {
+    return {
+        name: "InexistentUserError",
+        message: "User does not exist",
+    }
+}
