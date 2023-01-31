@@ -68,8 +68,7 @@ describe("POST /polls", () => {
                 img_a_url: faker.image.image(),
                 img_b_url: faker.image.image(),
                 img_a_title: faker.lorem.word(),
-                img_b_title: faker.lorem.word(),
-                user_id,
+                img_b_title: faker.lorem.word()
             });
 
             it("should respond with status 201 and create new poll", async () => {
@@ -79,11 +78,10 @@ describe("POST /polls", () => {
         
                 const response = await server.post("/polls").set("Authorization", `Bearer ${token}`).send(body);
         
-                expect(response.status).toBe(httpStatus.OK);
+                expect(response.status).toBe(httpStatus.CREATED);
                 const poll = await prisma.polls.findFirst({ where: { user_id:user.id } });
                 expect(poll).toBeDefined();
-              });
-
+            });
         });
     });
 });
