@@ -28,7 +28,7 @@ describe("POST /polls", () => {
     it("should respond with status 401 if given token is not valid", async () => {
         const token = faker.lorem.word();
     
-        const response = await server.get("/polls").set("Authorization", `Bearer ${token}`);
+        const response = await server.post("/polls").set("Authorization", `Bearer ${token}`);
     
         expect(response.status).toBe(httpStatus.UNAUTHORIZED);
     });
@@ -37,7 +37,7 @@ describe("POST /polls", () => {
         const userWithoutSession = await createUser();
         const token = jwt.sign({ user_id: userWithoutSession.id }, process.env.JWT_SECRET);
         
-        const response = await server.get("/polls").set("Authorization", `Bearer ${token}`);
+        const response = await server.post("/polls").set("Authorization", `Bearer ${token}`);
     
         expect(response.status).toBe(httpStatus.UNAUTHORIZED);
     });
