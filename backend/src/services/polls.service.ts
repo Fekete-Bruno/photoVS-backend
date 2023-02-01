@@ -3,13 +3,17 @@ import { notFoundError } from "../errors/common-errors";
 import { invalidCredentialsError } from "../errors/invalid-credentials-error";
 import poll_repository from "../repositories/polls.repository";
 
-export async function createPoll(params:CreatePollParams): Promise<polls> {
+async function getAllPolls() {
+    return poll_repository.listAll();
+}
+
+async function createPoll(params:CreatePollParams): Promise<polls> {
     return poll_repository.create(
         params
     )
 }
 
-export async function deletePoll(poll_id:number, user_id: number) {
+async function deletePoll(poll_id:number, user_id: number) {
     if(isNaN(poll_id)) throw notFoundError();
 
     const poll = await getPollOrFail(poll_id);
@@ -19,7 +23,7 @@ export async function deletePoll(poll_id:number, user_id: number) {
     return poll_repository.destroy(poll_id);
 }
 
-export async function getPollOrFail(id:number) {
+async function getPollOrFail(id:number) {
     const poll = await poll_repository.findById(id);
     
     if(!poll) throw notFoundError();
@@ -32,6 +36,7 @@ export type CreatePollParams = Omit< polls, "id" | "created_at" | "updated_at" >
 const poll_service = {
     createPoll,
     deletePoll,
+    getAllPolls,
 };
 
 export default poll_service;

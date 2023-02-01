@@ -23,10 +23,30 @@ async function findById(id:number) {
     });
 }
 
+async function listAll() {
+    return prisma.polls.findMany(
+        {
+            include:{
+                users: {
+                    select:{
+                        username:true,
+                        avatar_url:true
+                    }
+                },
+                votes: true
+            },
+            orderBy:{
+                id:'desc'
+            }
+        }
+    );
+}
+
 const poll_repository = {
     create,
     destroy,
     findById,
+    listAll,
 }
 
 export default poll_repository;
