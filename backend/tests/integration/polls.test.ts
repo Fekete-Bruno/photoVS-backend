@@ -192,7 +192,8 @@ describe("GET /polls", () => {
 
             expect(response.status).toBe(httpStatus.OK);
             expect(response.body).toEqual([{
-                ...poll
+                ...poll,
+                votes: []
             }]);
         });
     });
