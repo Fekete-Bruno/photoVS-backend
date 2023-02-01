@@ -109,26 +109,24 @@ describe("DELETE /polls", () => {
       
             const response = await server.delete("/polls/"+faker.lorem.word()).set("Authorization", `Bearer ${token}`);
       
-            expect(response.status).toBe(httpStatus.BAD_REQUEST);
+            expect(response.status).toBe(httpStatus.NOT_FOUND);
         });
         
 
         it("should respond with status 400 when poll_id is out of bounds", async () => {
             const token = await generateValidToken();
-            const body = { [faker.lorem.word()]: faker.lorem.word() };
     
             const response = await server.delete("/polls/0").set("Authorization", `Bearer ${token}`);
     
-            expect(response.status).toBe(httpStatus.BAD_REQUEST);
+            expect(response.status).toBe(httpStatus.NOT_FOUND);
         });
 
         it("should respond with status 404 when poll doesn't exist", async () => {
             const token = await generateValidToken();
-            const body = { [faker.lorem.word()]: faker.lorem.word() };
     
             const response = await server.delete("/polls/1").set("Authorization", `Bearer ${token}`);
     
-            expect(response.status).toBe(httpStatus.BAD_REQUEST);
+            expect(response.status).toBe(httpStatus.NOT_FOUND);
         });
 
         describe("when poll exists", () => {
@@ -152,7 +150,7 @@ describe("DELETE /polls", () => {
                 const response = await server.delete(`/polls/${poll.id}`).set("Authorization", `Bearer ${token}`);
                 const poll_count_after = await prisma.polls.count();
         
-                expect(response.status).toBe(httpStatus.UNAUTHORIZED);
+                expect(response.status).toBe(httpStatus.OK);
                 expect(poll_count_before).toEqual(1);
                 expect(poll_count_after).toEqual(0);
             });
