@@ -203,6 +203,8 @@ describe("GET /polls", () => {
             expect(response.status).toBe(httpStatus.OK);
             expect(response.body).toEqual([{
                 ...poll,
+                created_at:poll.created_at.toISOString(),
+                updated_at:poll.updated_at.toISOString(),
                 votes: [],
                 users: {
                     username:user.username,
