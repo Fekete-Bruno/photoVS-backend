@@ -1,4 +1,4 @@
-import { sessions, users } from "@prisma/client";
+import { users } from "@prisma/client";
 import { prisma } from "../../src/config/database";
 import { createUser } from "./users-factory";
 import * as jwt from "jsonwebtoken";
