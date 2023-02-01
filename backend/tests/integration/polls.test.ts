@@ -203,7 +203,11 @@ describe("GET /polls", () => {
             expect(response.status).toBe(httpStatus.OK);
             expect(response.body).toEqual([{
                 ...poll,
-                votes: []
+                votes: [],
+                users: {
+                    username:user.username,
+                    avatar_url:user.avatar_url,
+                }
             }]);
         });
     });
