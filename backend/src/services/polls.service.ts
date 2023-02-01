@@ -23,7 +23,7 @@ async function deletePoll(poll_id:number, user_id: number) {
     return poll_repository.destroy(poll_id);
 }
 
-async function getPollOrFail(id:number) {
+export async function getPollOrFail(id:number) {
     const poll = await poll_repository.findById(id);
     
     if(!poll) throw notFoundError();
