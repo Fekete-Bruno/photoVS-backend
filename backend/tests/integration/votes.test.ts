@@ -63,16 +63,15 @@ describe("POST /votes", () => {
         });
 
         describe("when body is valid", () => {
-            const generateValidVoteBody = (user_id:number, poll_id:number) => ({
+            const generateValidVoteBody = (poll_id:number) => ({
                 voted_for_a: faker.datatype.boolean(),
-                user_id,
                 poll_id
             });
             
             it("should respond with status 404 if poll doesn't exist", async () => {
                 const user = await createUser();
                 const token = await generateValidToken(user);
-                const body = generateValidVoteBody(user.id,1);
+                const body = generateValidVoteBody(1);
         
                 const response = await server.post("/votes").set("Authorization", `Bearer ${token}`).send(body);
         
@@ -83,7 +82,7 @@ describe("POST /votes", () => {
                 const user = await createUser();
                 const token = await generateValidToken(user);
                 const poll = await generateValidPoll(user);
-                const body = generateValidVoteBody(user.id,poll.id);
+                const body = generateValidVoteBody(poll.id);
         
                 const response = await server.post("/votes").set("Authorization", `Bearer ${token}`).send(body);
         
