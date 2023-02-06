@@ -22,7 +22,7 @@ async function signIn(params:SignInParams): Promise<SignInResult> {
 }
 
 async function getUserOrFail(email:string): Promise<GetUserOrFailResult> {
-    const user = await user_repository.findByEmail(email, { id: true, email: true, password: true, votes:true });
+    const user = await user_repository.findByEmail(email, { id: true, username:true, avatar_url:true, email: true, password: true, votes:true });
     if(!user) throw invalidCredentialsError();
 
     return user;

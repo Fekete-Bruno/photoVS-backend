@@ -13,5 +13,6 @@ export function generateValidUser() {
         email: faker.internet.email(),
         password: faker.internet.password(6),
         username: faker.internet.userName(),
+        avatar_url: faker.internet.avatar(),
     });
 }

@@ -87,7 +87,9 @@ describe("POST /auth/sign-in", () => {
 
                 expect(response.body.user).toEqual({
                     id: created_user.id,
-                    email: user.email,
+                    email: created_user.email,
+                    username:created_user.username,
+                    avatar_url:created_user.avatar_url,
                     votes:[],
                 });
             });
